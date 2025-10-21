@@ -920,11 +920,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: bdb9fbe7-615d-42b0-a2d8-fe8ed1f1b6e7
+  cloudProjectId: 97114a9d-a110-42fb-8790-97a5a4dcd0a5
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: ApocalypseMarket 2025-09-23_12-00-36
-  organizationId: apocalypsemarket
+  projectName: ApocalypseMarket
+  organizationId: unity_d16519107494484d5b18
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
