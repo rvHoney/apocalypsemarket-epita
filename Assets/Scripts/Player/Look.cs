@@ -1,75 +1,75 @@
 ﻿using UnityEngine;
 
-//script created by Antoine(Icescream) bruh
-
+// Created by Antoine(Icescream)
 public class Look : MonoBehaviour
 {
-    #region Singleton
     public static Look instance;
-    #endregion
 
-    InputMaster inputMaster;
-    Vector2 axis;
+    private InputMaster inputMaster;
+    private Vector2 rawInput;    
+    private Vector2 smoothedInput;  
+    private Vector2 inputVelocity;   
 
-    [Range(0f, 15f)] public float mouseSens = 7f;
+    [Header("Sensitivity")]
+    [Range(0f, 30f)] public float mouseSens = 7f;
     private float savedSensitivity;
-    [SerializeField] private Transform player;        
-
     public bool invertSensitivity = false;
 
-    Quaternion prevRotation;
-    bool locked;
+    [Header("Smoothing")]
+    [Range(0f, 25f)] public float smoothSpeed = 20f;
+    [SerializeField] private bool enableSmoothing = true;
+
+    [Header("References")]
+    [SerializeField] private Transform player;
 
     private Camera cam;
-    [SerializeField]float maxZoomFov = 45f;
-    float fov = 60f;
+    private float xRotation = 0f;
+    private float defaultFov;
+    [SerializeField] private float maxZoomFov = 45f;
+
+    private bool locked;
 
     private void Awake()
     {
-        cam = Camera.main;
-        fov = cam.fieldOfView;
-        if (!instance)
-        {
-            instance = this;
-        }
-
+        if (!instance) instance = this;
         inputMaster = new InputMaster();
-        //inputMaster.Player.Look.performed += ctx => axis = ctx.ReadValue<Vector2>();
     }
-
-    private int invertSens()
-    {
-        if (invertSensitivity)
-            return -1;
-        else return 1;
-    }
-
-    private float _xRootation = 0f;
-
-    [HideInInspector] public bool sensitivityHasChanged = false;
 
     private void Start()
     {
+        cam = Camera.main;
+        defaultFov = cam.fieldOfView;
         savedSensitivity = mouseSens;
         ShowCursor(false);
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        axis = inputMaster.Player.Look.ReadValue<Vector2>();
+        HandleLook();
+    }
 
-        float mouseX = axis.x * mouseSens * Time.fixedDeltaTime;
-        float mouseY = axis.y * mouseSens * Time.fixedDeltaTime * invertSens();
+    private void HandleLook()
+    {
+        rawInput = inputMaster.Player.Look.ReadValue<Vector2>();
 
-        _xRootation -= mouseY;
-        _xRootation = Mathf.Clamp(_xRootation, -90f, 90f);
+        // smoothing 
+        Vector2 finalInput = enableSmoothing
+            ? Vector2.Lerp(smoothedInput, rawInput, smoothSpeed * Time.deltaTime)
+            : rawInput;
+
+        smoothedInput = finalInput;
+
+        float mouseX = finalInput.x * mouseSens * Time.deltaTime;
+        float mouseY = finalInput.y * mouseSens * Time.deltaTime * (invertSensitivity ? -1f : 1f);
+
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         if (!locked)
         {
-            transform.localRotation = Quaternion.Euler(_xRootation, 0f, 0f);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             player.Rotate(Vector3.up * mouseX);
         }
-        
     }
 
     public void LockCameraRotation()
@@ -80,60 +80,31 @@ public class Look : MonoBehaviour
 
     public void SlowCameraRotation()
     {
-        float slowedSensitivity = savedSensitivity / 30;
-        mouseSens = slowedSensitivity;
+        mouseSens = savedSensitivity / 30f;
     }
-    public void resetSensitivity()
+
+    public void ResetSensitivity()
     {
         locked = false;
         mouseSens = savedSensitivity;
     }
-    public void saveRotation()
-    {
-        prevRotation = transform.rotation;
-    }
-    public void resetRotation()
-    {
-        
-        transform.rotation = prevRotation;
-    }
-
-    public void ChangeSensitivity(float newSens)
-    {
-        savedSensitivity = newSens;
-        mouseSens = savedSensitivity;
-    }
-    public void OverrideCameraPosition(Transform target,bool smooth , bool lockCameraMovement, bool lockPlayerMovement)
-    {
-        if(lockCameraMovement)
-            LockCameraRotation();
-        if (lockPlayerMovement)
-            PlayerMove.instance.LockPlayerInPlace();
-        transform.position = target.position;
-        locked = true;
-        transform.rotation = target.rotation;
-        
-    }
 
     public void ZoomIn(float delta, float speed)
-    {        
+    {
         cam.fieldOfView -= delta * speed;
-        cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, maxZoomFov, fov);
+        cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, maxZoomFov, defaultFov);
     }
+
     public void ResetFOV()
     {
-        cam.fieldOfView = fov;
+        cam.fieldOfView = defaultFov;
     }
 
     public void ShowCursor(bool show)
     {
-        if (show) Cursor.lockState = CursorLockMode.None;
-        else Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = show;
     }
 
-    private void OnEnable()
-    {
-        inputMaster.Enable();
-    }
+    private void OnEnable() => inputMaster.Enable();
 }

@@ -20,9 +20,13 @@ public class ShakeEvents
 
     public ShakeTransformEventData2 RunningPosition;
     public ShakeTransformEventData2 RunningRotation;
+
+    public ShakeTransformEventData2 ShootPosition;
+    public ShakeTransformEventData2 ShootRotation;
 }
 public class CameraShakeHandler : MonoBehaviour
 {
+    public static CameraShakeHandler Instance { get; private set; }
 
     public ShakeTransform2 st;
     public ShakeEvents events;
@@ -53,6 +57,13 @@ public class CameraShakeHandler : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); 
+            return;
+        }
+
+        Instance = this;
         pMove = GetComponent<PlayerMove>();
 
         SetupDefaultCameraShakeEvents();    
@@ -122,7 +133,7 @@ public class CameraShakeHandler : MonoBehaviour
     }
 
     void SetupDefaultCameraShakeEvents()
-    {       
+    {
 
         //instanciating  the shake events that will be assigned to the camera.
         positionShake = ScriptableObject.CreateInstance<ShakeTransformEventData2>();
@@ -143,5 +154,11 @@ public class CameraShakeHandler : MonoBehaviour
 
         st.AddShakeEvent(positionShake);
         st.AddShakeEvent(rotationShake);
+    }
+    
+    public void ShootCameraShake()
+    {
+        st.AddShakeEvent(events.ShootPosition);
+        st.AddShakeEvent(events.ShootRotation);
     }
 }
