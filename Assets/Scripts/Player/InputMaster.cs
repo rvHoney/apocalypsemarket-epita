@@ -173,8 +173,19 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""up"",
+                    ""id"": ""114da7b3-196b-43fe-b96b-f0b686c5247f"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""down"",
-                    ""id"": ""84f45cf0-fc99-4f7d-bb39-b80a6758d61c"",
+                    ""id"": ""92dc1bfb-d1d1-4649-ba7d-18b1d09d60d1"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -187,6 +198,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""name"": ""left"",
                     ""id"": ""7badd50c-802e-4145-9e76-797f43af0328"",
                     ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9e530820-2244-4aa1-aa47-2f1ab06b46a8"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
