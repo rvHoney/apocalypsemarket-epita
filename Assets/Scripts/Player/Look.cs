@@ -21,6 +21,7 @@ public class Look : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Transform player;
+    private Rigidbody playerRb;
 
     private Camera cam;
     private float xRotation = 0f;
@@ -33,6 +34,7 @@ public class Look : MonoBehaviour
     {
         if (!instance) instance = this;
         inputMaster = new InputMaster();
+        playerRb = player.GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -42,13 +44,7 @@ public class Look : MonoBehaviour
         savedSensitivity = mouseSens;
         ShowCursor(false);
     }
-
     private void Update()
-    {
-        HandleLook();
-    }
-
-    private void HandleLook()
     {
         rawInput = inputMaster.Player.Look.ReadValue<Vector2>();
 
@@ -59,17 +55,23 @@ public class Look : MonoBehaviour
 
         smoothedInput = finalInput;
 
-        float mouseX = finalInput.x * mouseSens * Time.deltaTime;
         float mouseY = finalInput.y * mouseSens * Time.deltaTime * (invertSensitivity ? -1f : 1f);
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        if (!locked)
-        {
-            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-            player.Rotate(Vector3.up * mouseX);
-        }
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+
+    private void FixedUpdate()
+    {
+        if (locked || playerRb == null) return;
+
+        float mouseX = smoothedInput.x * mouseSens * Time.fixedDeltaTime;
+
+        Quaternion deltaRotation = Quaternion.Euler(Vector3.up * mouseX);
+
+        playerRb.MoveRotation(playerRb.rotation * deltaRotation);
     }
 
     public void LockCameraRotation()
