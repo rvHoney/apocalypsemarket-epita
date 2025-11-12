@@ -393,6 +393,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &352295179 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3537065118507690380, guid: 125899655ecfa2d7ebf48e8f491d5750, type: 3}
+  m_PrefabInstance: {fileID: 1347668265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &372947901
 GameObject:
   m_ObjectHideFlags: 0
@@ -2107,6 +2118,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18d9f163ac48c044b9cd431925b39b44, type: 3}
+--- !u!114 &1271708818 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5151776099687576542, guid: 4c34dfca01c252b4e9b0b0ce4364b849, type: 3}
+  m_PrefabInstance: {fileID: 1266562553}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1283060590 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6974961521297420825, guid: 18d9f163ac48c044b9cd431925b39b44, type: 3}
@@ -2462,9 +2484,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174b2a6662f1ddd45bc052cc4b3390b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveLabel: {fileID: 0}
-  remainingEnemiesLabel: {fileID: 0}
-  enemyPrefab: {fileID: 1625507806097029137, guid: e647c72b333a50d4e931125a2a4c7d95, type: 3}
+  waveLabel: {fileID: 352295179}
+  remainingEnemiesLabel: {fileID: 1271708818}
+  enemyPrefab: {fileID: 3636929569629180693, guid: 37b1b49b85b87a77e838f66bebe13e0f, type: 3}
   delayBetweenEnemySpawn: 1
 --- !u!4 &1581944997
 Transform:

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 
 // Created by Antoine(Icescream)
 public class Look : MonoBehaviour
