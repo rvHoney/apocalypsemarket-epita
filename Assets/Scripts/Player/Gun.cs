@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Gun : MonoBehaviour
 {
+    [SerializeField] GameObject currentGun;
+
     [Header("Fire")]
     public float fireRate = 5f;
     public float range = 100f;
@@ -33,11 +35,15 @@ public class Gun : MonoBehaviour
 
     void Awake()
     {
-
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
+    }
+
+    void Start()
+    {
+        UpdateGunData();
     }
 
     void Update()
@@ -137,9 +143,22 @@ public class Gun : MonoBehaviour
         }
 
         if (rend != null)
-            Destroy(rend.gameObject); // destroy after fade
+            Destroy(rend.gameObject);
+    }
+    void UpdateGunData()
+    {
+        if (currentGun)
+        {
+            GunProperties properties = currentGun.GetComponent<GunID>().properties;
+            fireRate = properties.fireRate;
+            range = properties.range;
+            damage = properties.damage;
+            AmoDisplay.Instance.UpdateAmoDisplay(properties.magazineCapacity, properties.magazineCapacity);
+        }
     }
 }
+
+
 
 public interface IDamageable
 {
